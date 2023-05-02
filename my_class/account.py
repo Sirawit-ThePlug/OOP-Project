@@ -1,7 +1,7 @@
 from enum import Enum
 
 class Account_Status(Enum):
-    Online, Offline = 1, 0
+    Enable, Disabled = 1, 0
 
 class Account():
     def __init__(self, username, password, status) -> None:
