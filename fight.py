@@ -46,7 +46,6 @@ class Fligth:
         "destination_airport" : self.__destination_airport,
         "travel_time" : self.__travel_time
         }
-        print(fligth_doc)
         Doc_passenger_collection = init_db().doc_fligth
         Doc_passenger_collection.insert_one(fligth_doc)
         

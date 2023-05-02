@@ -22,105 +22,66 @@
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 </style>
-</head>
-<body class="w3-light-grey bg-colo-warning">
+<script>
+  $(document).ready(() => {
+    $('form').on('submit', (event) => {
+        $.ajax({
+            type: 'POST',
+            url: '/add_passenger',
+            data: { 
+              departure: $('#departure').val(),
+              destination: $('#destination').val(),
+              id: $('#id').val(),
+              email: $('#email').val(),
+              phon: $('#phon').val()
+          },
+            success: function (data) {
+                Swal.fire(
+                    'บันทึกเที่ยวบินสำเร็จ',
+                    data[''],
+                    'success'
+                )
+            },
+        })
 
-<!-- Navigation Bar -->
-<div class="w3-bar w3-white w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-red w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Logo</a>
-  <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Rooms</a>
-  <a href="#about" class="w3-bar-item w3-button w3-mobile">About</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Book Now</a>
-</div>
-<div class="form-group">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm" style="">
-          <div class="h1 text-center">การบินไทย</div>
-          <div class="card-group">
-            <div class="card">
-              <div class="card-body text-center">
-                <ul
-                  class="text-left"
-                  style="list-style-type: none; padding-left: 0; text-align: left"
-                >
-                  <li class="text-left" style="padding-left: 0px">
-                    วันที่ออกเดินทาง: <br />
-                  </li>
-  
-                  <li>
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="departure_date"
-                      name="departure_date"
-                    />
-                  </li>
-                  <li>ชั้นที่นั่ง:</li>
-  
-                  <li>
-                    <select class="form-control" id="seat_type" name="SeatType">
-                      <option value="economy">Premium Economy & Economy</option>
-                      <option value="firstclass">First & Business</option>
-                    </select>
-                  </li>
-                </ul>
-              </div>
-            </div>
-  
-            <div class="card">
-              <div class="card-body text-center">
-                <ul
-                  class="text-left"
-                  style="list-style-type: none; padding-left: 0; text-align: left"
-                >
-                  <li class="text-left" style="padding-left: 0px">จาก: <br /></li>
-  
-                  <!-- station selector pass value from auth.py-->
-  
-                  <li>
-                    <select
-                      class="form-control"
-                      id="first_station"
-                      name="first_station"
-                    >
-                      <option value="">
-                        d
-                      </option>
-                      
-                    </select>
-                  </li>
-                  <li>วันที่เดินทางกลับ:</li>
-                  <li>
-                    <input
+        event.preventDefault();
+    });
+    return false;
+}); 
+</script>
+</head>
+<body>
+    <div class="container mt-5">
+        <form action="POST">
+        ต้นทาง
+        <input type="text" id="departure" class="form-control">
+        ปลายทาง
+        <input type="text" id="lname" class="form-control">
+        วันไป
+        <input
                       type="date"
                       class="form-control"
                       id="return_date"
-                      name="return_date"
-                    />
-                  </li>
-                </ul>
-              </div>
-            </div>
-  
-            <div class="card">
-              <div class="card-body text-center">
-                <p class="card-text">Some text inside the third card</p>
-                <button
-                  type="submit"
-                  class="btn btn-warning btn-lg btn-block rounded-5"
-                >
-                  จองและซื้อ
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+                      name="return_date"/>
+        วันกลับ
+        <input
+                      type="date"
+                      class="form-control"
+                      id="return_date"
+                      name="return_date"/>
+        ชั้นที่นั่ง 
+        <select class="form-control" id="seat_type" name="SeatType">
+          <option value="economy">Premium Economy & Economy</option>
+          <option value="firstclass">First & Business</option>
+        </select>
+        <div class="d-grid gap-2">
+        <input type='submit' value='add' class='btn btn-primary mt-5' >
+
       </div>
-    </div>
+      
+     </form>
   </div>
-  
+
 
 
 

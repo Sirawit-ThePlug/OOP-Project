@@ -30,19 +30,25 @@ def add_account():
 @app.route('/add_figth_page')
 def add_figth_page():
     return render_template('add_fight.html')
-@app.route('/add_passenger')
+@app.route('/add_passenger',methods=["POST"])
 def add_passenger():
-    passenger = Passenger("thanaphon","Inthapheat","1","bascup@gmail.com","0634626874")
+    fname = request.form['fname']
+    lname = request.form['lname']
+    id = request.form['id']
+    email = request.form['email']
+    phon = request.form['phon']
+    passenger = Passenger(fname,lname,id,email,phon)
     passenger.create_passenger_docs()
     return "Success"
 
 @app.route('/add_figth',methods=["POST"])
 def add_figth():
     de = request.form['de']
-    de = request.form['de']
+    des = request.form['des']
+    ti = request.form['ti']
     print(de)
-    # passenger = Fligth("เชี่ยงใหม่","ชายเมี่ยง","8")
-    # passenger.create_fligth()
+    passenger = Fligth(de,des,ti)
+    passenger.create_fligth()
     return "Success"
 
 @app.route('/add_FlightInstance')
@@ -53,5 +59,8 @@ def addFlightInstance():
 @app.route('/add_FlightInstancepage')
 def addFlightInstance_page():
     return render_template('Home.html')
+@app.route('/add_passengerpage')
+def add_passenger_page():
+    return render_template('add_passenger.html')
     
 app.run(debug=True)
