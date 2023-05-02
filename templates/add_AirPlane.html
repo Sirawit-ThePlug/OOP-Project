@@ -15,16 +15,15 @@
         $('form').on('submit', (event) => {
             $.ajax({
                 type: 'POST',
-                url: '/add_figth',
+                url: '/add_airplane',
                 data: { 
-                  de: $('#de').val(),
-                  des: $('#des').val(),
-                  ti: $('#ti').val(),
-                  price: $('#price').val()
+                    registration: $('#registration').val(),
+                    total_economic_seat: $('#total_economic_seat').val(),
+                    total_premium_seat: $('#total_premium_seat').val()
               },
                 success: function (data) {
                     Swal.fire(
-                        'บันทึกเที่ยวบินสำเร็จ',
+                        'สร้างเครื่องบินสำเร็จแล้ว',
                         data[''],
                         'success'
                     )
@@ -40,16 +39,14 @@
   <body>
     <div class="container mt-5">
        <form action="POST">
-        Departure Airport
-        <input type="text" id="de" class="form-control">
-        Departure Airport
-        <input type="text" id="des" class="form-control">
-        Time
-        <input type="text" id="ti" class="form-control">
-        Price
-        <input type="text" id="price" class="form-control">
+        aircraft registration number
+        <input type="text" id="registration" class="form-control">
+        total economic seat
+        <input type="text" id="total_economic_seat" class="form-control">
+        total premium seat
+        <input type="text" id="total_premium_seat" class="form-control">
         <div class="d-grid gap-2">
-          <input type='submit' value='add' class='btn btn-primary mt-5' >
+          <input type='submit' value='Add Airplane' class='btn btn-primary mt-5' >
 
         </div>
         

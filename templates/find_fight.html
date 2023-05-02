@@ -31,13 +31,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             data: { 
               departure: $('#departure').val(),
               destination: $('#destination').val(),
-              id: $('#id').val(),
-              email: $('#email').val(),
-              phon: $('#phon').val()
+              depart_date: $('#depart_date').val(),
           },
             success: function (data) {
                 Swal.fire(
-                    'บันทึกเที่ยวบินสำเร็จ',
+                    'บันทึกเวลาขึ้นเที่ยวบินสำเร็จ',
                     data[''],
                     'success'
                 )
@@ -55,27 +53,29 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <form action="POST">
         ต้นทาง
         <input type="text" id="departure" class="form-control">
-        ปลายทาง
-        <input type="text" id="lname" class="form-control">
         วันไป
         <input
                       type="date"
                       class="form-control"
-                      id="return_date"
-                      name="return_date"/>
-        วันกลับ
-        <input
-                      type="date"
-                      class="form-control"
-                      id="return_date"
-                      name="return_date"/>
+                      id="depart_date"
+                      name="depart_date"
+                      />
+        เวลาเดินทาง
+        <select class="form-control" id="Time_To_GO" name="seat_type">
+          <option value="8.00">8.00</option>
+          <option value="10.00">10.00</option>
+          <option value="12.00">12.00</option>
+          <option value="14.00">14.00</option>
+          <option value="16.00">16.00</option>
+          <option value="18.00">18.00</option>
+        </select>
         ชั้นที่นั่ง 
-        <select class="form-control" id="seat_type" name="SeatType">
+        <select class="form-control" id="seat_type" name="seat_type">
           <option value="economy">Premium Economy & Economy</option>
           <option value="firstclass">First & Business</option>
         </select>
         <div class="d-grid gap-2">
-        <input type='submit' value='add' class='btn btn-primary mt-5' >
+        <input type='submit' value='Find a flight' class='btn btn-primary mt-5' >
 
       </div>
       

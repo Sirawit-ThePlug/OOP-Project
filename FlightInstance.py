@@ -39,7 +39,7 @@ class FlightInstance(Fligth):
     def departure_airpor(self):
         return self.__departure_airpor
     
-    @fligth_id.setter
+    @departure_airpor.setter
     def departure_airpor(self, new_depart):
         self.__departure_airpor = new_depart
 
