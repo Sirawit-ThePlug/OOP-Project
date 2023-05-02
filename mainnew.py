@@ -10,7 +10,7 @@ my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87n
 database = my_client.tg_database
 
 app = Flask(__name__)
-
+ 
 @app.route('/add_account')
 def add_account():
     user = Member('username','password',1,'name','email','phone')
@@ -50,5 +50,8 @@ def addFlightInstance():
     passenger = FlightInstance("เชี่ยงใหม่","ชายเมี่ยง","8","วันพุธ","8.00")
     passenger.create_FlightInstance()
     return "Success"
-
+@app.route('/add_FlightInstancepage')
+def addFlightInstance_page():
+    return render_template('Home.html')
+    
 app.run(debug=True)
