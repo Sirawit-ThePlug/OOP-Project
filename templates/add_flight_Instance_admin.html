@@ -15,14 +15,16 @@
           $('form').on('submit', (event) => {
               $.ajax({
                   type: 'POST',
-                  url: '/app_FlightInstance_admin',
+                  url: '/add_FlightInstance_admin',
                   data: { 
                     departure_airpor: $('#departure_airpor').val(),
                     destination_airport: $('#destination_airport').val(),
                     travel_time: $('#travel_time').val(),
                     depart_date: $('#depart_date').val(),
                     Time_To_GO: $('#Time_To_GO').val(),
-                    id_figth: $('#id_figth').val()
+                    id_figth: $('#id_figth').val(),
+                    flight_price: $('#flight_price').val()
+                    
                     
                 },
                   success: function (data) {
@@ -59,6 +61,11 @@
             <div class="col-sm-10">
               <input type="text" readonly class="form-control-plaintext" id="travel_time" value="{{db_figth.travel_time}}">
         </div>
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">ราคาเที่ยวบิน</label>
+          <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="flight_price" value="{{db_figth.flight_price}}">
+      </div>
             วันที่ไฟท์บิน
         <input type="date" class="form-control" id="depart_date" name="depart_date"/>
             เวลาที่เครื่องขึ้นบิน

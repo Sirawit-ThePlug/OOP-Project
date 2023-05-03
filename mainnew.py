@@ -134,7 +134,7 @@ def add_airplanepage():
 def add_accout_page():
     return render_template('Register-form.html')
 
-@app.route('/app_FlightInstance_admin',methods=["POST"])
+@app.route('/add_FlightInstance_admin',methods=["POST"])
 def add_FlightInstance():
 
     departure_airpor = request.form['departure_airpor']
@@ -142,13 +142,57 @@ def add_FlightInstance():
     travel_time = request.form['travel_time']
     depart_date = request.form['depart_date']
     Time_To_GO = request.form['Time_To_GO']
-    print(departure_airpor,destination_airport,travel_time,depart_date,Time_To_GO)
-    passenger = FlightInstance(departure_airpor,destination_airport,travel_time,depart_date,Time_To_GO)
+    flight_price = request.form['flight_price']
+    
+    passenger = FlightInstance(departure_airpor,destination_airport,travel_time,depart_date,Time_To_GO,flight_price)
     passenger.create_FlightInstance()
     return "Success"
 
 
 
+@app.route('/Find_Flight_member')
+def Find_Flight_member():
+    return render_template('find_fight_member.html')
+
+
+@app.route('/find_action_Member',methods=['POST'])
+def find_action_Member():
+    departure=request.form['departure']
+    destination=request.form['destination']
+    depart_date=request.form['depart_date']
+    Time_To_GO=request.form['Time_To_GO']
+    print(departure,destination,depart_date,Time_To_GO)
+    fight_collection = database.doc_FlightInstance
+    count = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date ,"departure_time" : Time_To_GO})
+    c=0
+    for i in count:
+        c = c+1
+    print(c)
+    if c == 0:
+        return jsonify({'status':0})
+    return "YES"
+
+
+@app.route('/finedflight_member/<departure>/<destination>/<depart_date>/<Time_To_GO>', methods=['GET'])
+def finedflight_member(departure, destination,depart_date,Time_To_GO):
+    departure = departure
+    destination = destination
+    depart_date = depart_date
+    Time_To_GO = Time_To_GO
+    fight_collection = database.doc_FlightInstance
+    
+    db_figth = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date ,"departure_time" : Time_To_GO})
+  
+    
+    return render_template('show_flight_member.html', db_figth = db_figth)
+
+@app.route('/send_instance_user/<_id>', methods=['GET'])
+def send_instance_user(_id):
+    _id=_id
+    fight_collection = database.doc_FlightInstance
+    db_figth = fight_collection.find({"_id" : ObjectId(_id)})
+    
+    return render_template('add_flight_Instance_member.html', db_figth=db_figth[0])
 # @app.route('/add_FlightInstance')
 # def 
 app.run(debug=True)

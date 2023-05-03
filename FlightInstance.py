@@ -1,13 +1,15 @@
 from fight import Fligth
 from init_database import init_db
 import pprint
-class FlightInstance():
-    def __init__(self, departure_airpor, destination_airport, travel_time,departure_date,departure_time):
+class FlightInstance(Fligth):
+    def __init__(self, departure_airpor, destination_airport, travel_time,departure_date,departure_time,flight_price):
+        super().__init__(departure_airpor, destination_airport, travel_time,flight_price)
         self.__departure_airpor=departure_airpor
         self.__destination_airport=destination_airport
         self.__travel_time=travel_time
         self.__departure_date=departure_date
         self.__departure_time=departure_time
+        self.__flight_price=flight_price
         self.__fligth_id=None
     
     @property
@@ -58,6 +60,14 @@ class FlightInstance():
     def travel_time(self, new_travel):
         self.__travel_time = new_travel
     
+    @property
+    def flight_price(self):
+        return self.__flight_price
+    
+    @flight_price.setter
+    def flight_price(self, new_travel):
+        self.__flight_price = new_price
+    
 
     def create_FlightInstance(self):
         FlightInstance_doc = {
@@ -66,7 +76,8 @@ class FlightInstance():
         "destination_airport" : self.__destination_airport,
         "travel_time" : self.__travel_time,
         "departure_date" : self.__departure_date,
-        "departure_time": self.__departure_time
+        "departure_time": self.__departure_time,
+        "flight_price" : self.__flight_price
     
         }
         print(FlightInstance_doc)
