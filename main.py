@@ -13,11 +13,17 @@ app = Flask(__name__)
 def html_index():
    return render_template('Home.html')
 
-@app.route('/<user>',methods=['GET'])
+@app.route('/admin_page/<user>',methods=['GET'])
+def html_index_admin(user):
+   user_collection = database.user_account
+   user = user_collection.find({"username" : user})
+   return render_template('admin_page.html', insert1 = user[0])
+
+@app.route('/member/<user>',methods=['GET'])
 def html_index_user(user):
    user_collection = database.user_account
    user = user_collection.find({"username" : user})
-   return render_template('user_Home.html', u = user[0])
+   return render_template('user_Home.html', insert1 = user[0])
 
 @app.route('/login')
 def html_login():

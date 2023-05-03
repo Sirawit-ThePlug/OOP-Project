@@ -34,21 +34,59 @@
       h6 {
         font-family: "Raleway", Arial, Helvetica, sans-serif;
       }
+      body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  background-color: #840688b9;
+}
     </style>
+    <script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"
+  ></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $(document).ready(() => {
+      $("form").on("submit", (event) => {
+        $.ajax({
+          type: "POST",
+          url: "/check_login",
+          data: {
+//            departure_date: $("#departure_date").val(),
+//            SeatType: $("#SeatType").val(),
+//            first_station: $("#first_station").val(),
+//            destination_station: $("#destination_station").val(),
+          },
+          success: function (data) { 
+            Swal.fire("Error", "Please login before to continue", "error");          
+          },
+          error: function () {
+            Swal.fire("Error", "Please login before to continue", "error");
+          },
+        });
+
+        event.preventDefault();
+      });
+      return false;
+    });
+  </script>
   </head>
   <body class="w3-light-grey bg-colo-warning">
     <!-- Navigation Bar -->
-    <div class="w3-bar w3-white w3-large">
-      <a href="home" class="w3-bar-item w3-button w3-white w3-mobile"
+    <div class="w3-bar text-white w3-large" style="background-color: #3e075b;">
+      <a href="/" class="w3-bar-item w3-button w3-mobile"
         ><img
           class="logo"
           src="/static/resource/Logo.png"
           alt="Logo"
-          style="height: 22px; width: 22px"
+          style="height: 24px; width: 24px"
       /></a>
-      <a href="home" class="w3-bar-item w3-button w3-mobile">Search</a>
-      <a href="#about" class="w3-bar-item w3-button w3-mobile">About</a>
-      <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
+      <a href="/" class="w3-bar-item w3-button w3-mobile">Search</a>
+      <a href="https://www.thaiairways.com/en/about_thai/company_profile/index.page" class="w3-bar-item w3-button w3-mobile">About</a>
+      <a href="https://www.thaiairways.com/en_TH/help/contact_us/index.page" class="w3-bar-item w3-button w3-mobile">Contact</a>
       <a
         href="login"
         class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile"
@@ -60,7 +98,8 @@
         <div class="container">
           <div class="row">
             <div class="col-sm">
-              <div class="h1 text-center">การบินไทย</div>
+              <br><div class="h1 text-center">การบินไทย</div>
+              <div class="text-center"><img src="/static/resource/thai_orchid.jpeg"></div><br>
               <div class="card-group">
                 <div class="card">
                   <div class="card-body text-center">
@@ -129,7 +168,7 @@
                           <option value="phuket">phuket</option>
                         </select>
                       </li>
-                      <li>วันที่เดินทางกลับ:</li>
+                      <!-- <li>วันที่เดินทางกลับ:</li>
                       <li>
                         <input
                           type="date"
@@ -137,7 +176,7 @@
                           id="return_date"
                           name="return_date"
                         />
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                 </div>
@@ -161,8 +200,8 @@
                       <li>
                         <select
                           class="form-control"
-                          id="first_station"
-                          name="first_station"
+                          id="destination_station"
+                          name="destination_station"
                         >
                           <option value="bkk">bkk</option>
                           <option value="chiangmai">chiangmai</option>
