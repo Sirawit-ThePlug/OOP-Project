@@ -6,6 +6,7 @@ from passenger import Passenger
 from fight import Fligth
 from FlightInstance import FlightInstance
 from AirPlane import AirPlane
+from bson.objectid import ObjectId
 
 my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority")
 database = my_client.tg_database
@@ -60,10 +61,10 @@ def add_figth():
 
 @app.route('/Find_Flight')
 def addFlightInstance_page():
-    return render_template('find_fight.html')
+    return render_template('find_fight_admin.html')
 
-@app.route('/find_action',methods=['POST'])
-def find_action():
+@app.route('/find_action_admin',methods=['POST'])
+def find_action_admin():
     departure=request.form['departure']
     destination=request.form['destination']
     print(departure)
@@ -77,26 +78,37 @@ def find_action():
     if c == 0:
         return jsonify({'status':0})
     return "YES"
+
+
     
-@app.route('/finedflight/<departure>/<destination>/<depart_date>/<Time_To_GO>', methods=['GET'])
-def finedflight(departure, destination,depart_date,Time_To_GO):
+@app.route('/finedflight_admin/<departure>/<destination>', methods=['GET'])
+def finedflight_admin(departure, destination):
     departure = departure
     destination = destination
-    depart_date=depart_date
-    Time_To_GO=Time_To_GO
     fight_collection = database.doc_fligth
+    
     db_figth = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination})
-    print(Time_To_GO,depart_date)
-    return render_template('show_flight.html', db_figth = db_figth, depart_date=depart_date, Time_To_GO=Time_To_GO)
+    return render_template('show_flight_admin.html', db_figth = db_figth)
 
 
-@app.route('/send_instance/<_id>', methods=['GET'])
+
+@app.route('/send_instance_admin/<_id>', methods=['GET'])
 def sendflight(_id):
     _id=_id
     fight_collection = database.doc_fligth
-    db_figth = fight_collection.find({"_id" : _id})
+    db_figth = fight_collection.find({"_id" : ObjectId(_id)})
     
-    return render_template('add_flight_Instance.html', db_figth=db_figth)
+    return render_template('add_flight_Instance_admin.html', db_figth=db_figth[0])
+
+# @app.route('/send_instance_member/<_id>/<Time_To_GO>/<depart_date>', methods=['GET'])
+# def sendflight(_id,Time_To_GO,depart_date):
+#     _id=_id
+#     Time_To_GO=Time_To_GO
+#     depart_date=depart_date
+#     fight_collection = database.doc_fligth
+#     db_figth = fight_collection.find({"_id" : ObjectId(_id)})
+    
+#     return render_template('add_flight_Instance.html', db_figth=db_figth[0],Time_To_GO=Time_To_GO,depart_date=depart_date)
 
 
 @app.route('/add_passengerpage')
@@ -121,6 +133,21 @@ def add_airplanepage():
 @app.route('/add_accout_page')
 def add_accout_page():
     return render_template('Register-form.html')
+
+@app.route('/app_FlightInstance_admin',methods=["POST"])
+def add_FlightInstance():
+
+    departure_airpor = request.form['departure_airpor']
+    destination_airport = request.form['destination_airport']
+    travel_time = request.form['travel_time']
+    depart_date = request.form['depart_date']
+    Time_To_GO = request.form['Time_To_GO']
+    print(departure_airpor,destination_airport,travel_time,depart_date,Time_To_GO)
+    passenger = FlightInstance(departure_airpor,destination_airport,travel_time,depart_date,Time_To_GO)
+    passenger.create_FlightInstance()
+    return "Success"
+
+
 
 # @app.route('/add_FlightInstance')
 # def 

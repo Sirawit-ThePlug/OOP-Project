@@ -1,9 +1,8 @@
 from fight import Fligth
 from init_database import init_db
 import pprint
-class FlightInstance(Fligth):
+class FlightInstance():
     def __init__(self, departure_airpor, destination_airport, travel_time,departure_date,departure_time):
-        super().__init__(departure_airpor, destination_airport, travel_time)
         self.__departure_airpor=departure_airpor
         self.__destination_airport=destination_airport
         self.__travel_time=travel_time

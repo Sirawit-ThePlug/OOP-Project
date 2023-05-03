@@ -15,12 +15,10 @@
             $('form').on('submit', (event) => {
                 $.ajax({
                     type: 'POST',
-                    url: '/find_action',
+                    url: '/find_action_admin',
                     data: { 
                       departure: $('#departure').val(),
                       destination: $('#destination').val(),
-                      depart_date: $('#depart_date').val(),
-                      Time_To_GO: $('#Time_To_GO').val()
                   },
                     success: function (data) {
                       status = data['status']
@@ -34,7 +32,7 @@
                         })
                       }
                       else{
-                      window.location.href = '/finedflight/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val() + '/' + $('#Time_To_GO').val();
+                      window.location.href = '/finedflight_admin/' + $('#departure').val() + '/' + $('#destination').val();
                       }
                         
                     },
@@ -53,22 +51,7 @@
         <input type="text" id="departure" class="form-control">
         ปลายทาง
         <input type="text" id="destination" class="form-control">
-        วันไป
-        <input
-                      type="date"
-                      class="form-control"
-                      id="depart_date"
-                      name="depart_date"
-                      />
-        เวลาเดินทาง
-        <select class="form-control" id="Time_To_GO" name="Time_To_GO">
-          <option value="8.00">8.00</option>
-          <option value="10.00">10.00</option>
-          <option value="12.00">12.00</option>
-          <option value="14.00">14.00</option>
-          <option value="16.00">16.00</option>
-          <option value="18.00">18.00</option>
-        </select>
+
        
         <div class="d-grid gap-2">
         <input type='submit' value='Find a flight' class='btn btn-primary mt-5' >
