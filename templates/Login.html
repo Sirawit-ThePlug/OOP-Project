@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Login</title>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link
@@ -37,29 +37,39 @@
     crossorigin="anonymous"
   ></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-      $(document).ready(() => {
-        $("form").on("submit", (event) => {
-          $.ajax({
-            type: "POST",
-            url: "/check_login",
-            data: {
-              username: $("#username").val(),
-              password: $("#password").val(),
-            },
-            success: function (data) {
-              Swal.fire("บันทึกข้อมูลผู้ใช้สำเร็จ", data[""], "success");
-            },
-            error: function(){
-              Swal.fire("ค้นหาข้อมูลผู้ใช้ไม่สำเร็จ", data[""], "error")
+  <script>
+    $(document).ready(() => {
+      $("form").on("submit", (event) => {
+        $.ajax({
+          type: "POST",
+          url: "/check_login",
+          data: {
+            username: $("#username").val(),
+            password: $("#password").val(),
+          },
+          success: function (data) {
+            if (data.status === "success") {
+              if(data['type'] == 'member'){
+                window.location.href = '/' + $("#username").val();
+              }
+              else{
+                window.location.href = '/asdasdsad/' + $("#username").val();
+              }
+              
+            } else {
+              Swal.fire("Error", data.message, "error");
             }
-          });
-
-          event.preventDefault();
+          },
+          error: function () {
+            Swal.fire("Error", "Server did not return a response", "error");
+          },
         });
-        return false;
+
+        event.preventDefault();
       });
-    </script>
+      return false;
+    });
+  </script>
   </head>
   <body>
     <div class="w3-bar w3-purple w3-large">

@@ -1,5 +1,6 @@
 import ssl
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask_login import LoginManager, login_required
 import pymongo
 from my_class.account import Account, Member, Admin
 
@@ -12,23 +13,35 @@ app = Flask(__name__)
 def html_index():
    return render_template('Home.html')
 
+@app.route('/<user>',methods=['GET'])
+def html_index_user(user):
+   user_collection = database.user_account
+   user = user_collection.find({"username" : user})
+   return render_template('user_Home.html', u = user[0])
+
 @app.route('/login')
 def html_login():
    return render_template('Login.html')
 
 @app.route('/check_login', methods = ['POST', 'GET'])
 def check_login():
+    output_data = []
     if request.method == 'POST':
       username = request.form['username']
       password = request.form['password']
     else:
        return "Type Error"
     user_collection = database.user_account
-    output_data = user_collection.find({"username" : username, "password" : password})
-    if any(output_data):
-       return "OK"
-    print("error")
-    return 
+#    output_data = user_collection.find({"username" : username, "password" : password})
+    for x in user_collection.find({ "username": username, "password": password }):
+       output_data = x
+    if output_data == []:
+       return jsonify({'status': 'error', 'message': 'Invalid username or password.'})
+    else:
+       print("Welcome",output_data.get('username'))
+       print(output_data.get('type'))
+       return jsonify({'status': 'success', 'message': 'Login successful!', 'type': output_data.get('type')})
+
 @app.route('/register')
 def html_register():
    return render_template('Register.html')
