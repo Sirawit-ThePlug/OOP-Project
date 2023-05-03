@@ -14,6 +14,7 @@ app = Flask(__name__)
  
 @app.route('/add_account')
 def add_account():
+    
     user = Member('username','password',1,'name','email','phone')
     user_doc = {
         "username": user.username,
@@ -57,18 +58,45 @@ def add_figth():
     passenger.create_fligth()
     return "Success"
 
-@app.route('/add_FlightInstance',methods=["POST"])
-def addFlightInstance():
-    departure = request.form['departure']
-    return_date = request.form['return_date']
-    passenger = FlightInstance("เชี่ยงใหม่","ชายเมี่ยง","8","วันพุธ","8.00")
-    passenger.create_FlightInstance()
-    return "Success"
-
-
 @app.route('/Find_Flight')
 def addFlightInstance_page():
     return render_template('find_fight.html')
+
+@app.route('/find_action',methods=['POST'])
+def find_action():
+    departure=request.form['departure']
+    destination=request.form['destination']
+    print(departure)
+    print(destination)
+    fight_collection = database.doc_fligth
+    count = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination})
+    c = 0
+    for i in count:
+        c = c+1
+    print(c)
+    if c == 0:
+        return jsonify({'status':0})
+    return "YES"
+    
+@app.route('/finedflight/<departure>/<destination>/<depart_date>/<Time_To_GO>', methods=['GET'])
+def finedflight(departure, destination,depart_date,Time_To_GO):
+    departure = departure
+    destination = destination
+    depart_date=depart_date
+    Time_To_GO=Time_To_GO
+    fight_collection = database.doc_fligth
+    db_figth = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination})
+    print(Time_To_GO,depart_date)
+    return render_template('show_flight.html', db_figth = db_figth, depart_date=depart_date, Time_To_GO=Time_To_GO)
+
+
+@app.route('/send_instance/<_id>', methods=['GET'])
+def sendflight(_id):
+    _id=_id
+    fight_collection = database.doc_fligth
+    db_figth = fight_collection.find({"_id" : _id})
+    
+    return render_template('add_flight_Instance.html', db_figth=db_figth)
 
 
 @app.route('/add_passengerpage')
@@ -90,4 +118,10 @@ def add_airplane():
 def add_airplanepage():
     return render_template('add_AirPlane.html')
 
+@app.route('/add_accout_page')
+def add_accout_page():
+    return render_template('Register-form.html')
+
+# @app.route('/add_FlightInstance')
+# def 
 app.run(debug=True)

@@ -10,34 +10,28 @@
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
     
   </head>
   <body>
-    <div class='container mt-5'>
-        {%for i in db_figth%}
-    <div class="card">
-        <div class="card-header">
-          <strong>เที่ยวบิน</strong> {{i.departure_airpor }} - {{i.destination_airport }}
-        </div>
-        <div class="card-body ">
-            <div class="d-flex justify-content-between">
-                <div class="">
-                    <li><strong>ต้นทาง:</strong> {{i.departure_airpor }} <strong>ปลายทาง:</strong> {{i.destination_airport }} <strong>เวลาในการเดินทาง:</strong> {{i.travel_time}} 
-                       
-                </div>
-                
-                <div>
-                    <a href="/send_instance/{{i._id}}" class="btn btn-primary">จองเลยไหมครับคุณลูกค้าที่เคารพ</a></li>   
-                </div>
-            </div>
-             
-        </div>
-      </div>
     <div class="container mt-5">
-    </div>
-    {%endfor%}
-    </div>
+        {%for i in db_figth%}
+       <form action="POST">
+        <div class="mb-3 row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">ต้นทาง</label>
+            <div class="col-sm-10">
+              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{i.departure_airpor}}">
+        </div>
+
+        <div class="mb-3 row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">ปลายทาง</label>
+            <div class="col-sm-10">
+              <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{i.destination_airport}}">
+        </div>
     
+        </div>
+        
+       </form>
+       {%endfor%}
+    </div>
   </body>
 </html>
