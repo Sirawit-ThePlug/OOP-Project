@@ -28,7 +28,7 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/templates/style/main.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}" />
 
     <script
       src="https://code.jquery.com/jquery-3.6.4.js"
@@ -50,7 +50,7 @@
         $("form").on("submit", (event) => {
           $.ajax({
             type: "POST",
-            url: "/register",
+            url: "/add_account",
             data: {
               username: $("#username").val(),
               password: $("#password").val(),
@@ -74,7 +74,7 @@
       <a href="home" class="w3-bar-item w3-button w3-purple w3-mobile"
         ><img
           class="logo"
-          src="/templates/resource//Logo.png"
+          src="/static/resource/Logo.png"
           alt="Logo"
           style="height: 30px; width: 30px"
       /></a>
@@ -148,7 +148,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="Phone"
+                    id="phone"
                     placeholder="Ex. 0987654321"
                   />
                 </div>

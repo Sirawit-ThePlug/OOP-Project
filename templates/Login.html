@@ -27,14 +27,46 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/templates/style/main.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/main.css') }}"
+    />
+    <script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"
+  ></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      $(document).ready(() => {
+        $("form").on("submit", (event) => {
+          $.ajax({
+            type: "POST",
+            url: "/check_login",
+            data: {
+              username: $("#username").val(),
+              password: $("#password").val(),
+            },
+            success: function (data) {
+              Swal.fire("บันทึกข้อมูลผู้ใช้สำเร็จ", data[""], "success");
+            },
+            error: function(){
+              Swal.fire("ค้นหาข้อมูลผู้ใช้ไม่สำเร็จ", data[""], "error")
+            }
+          });
+
+          event.preventDefault();
+        });
+        return false;
+      });
+    </script>
   </head>
   <body>
     <div class="w3-bar w3-purple w3-large">
       <a href="home" class="w3-bar-item w3-button w3-purple w3-mobile"
         ><img
           class="logo"
-          src="/templates/resource//Logo.png"
+          src="static/resource/Logo.png"
           alt="Logo"
           style="height: 30px; width: 30px"
       /></a>
@@ -52,17 +84,17 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-6 form-box">
-            <form>
+            <form action="POST">
               <h2 class="text-center mb-4">Login</h2>
               <div class="form-inline">
                 <div class="form-group col-6-sm">
-                  <label for="email">Email</label>
+                  <label for="username">USERNAME</label>
 
                   <input
                     type="text"
                     class="form-control"
-                    id="email"
-                    placeholder="Enter your Email"
+                    id="username"
+                    placeholder="Enter your username"
                   />
                 </div>
               </div>
