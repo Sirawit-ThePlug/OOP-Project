@@ -28,13 +28,11 @@
         $("form").on("submit", (event) => {
           $.ajax({
             type: "POST",
-            url: "/add_passenger",
+            url: "/add_figth",
             data: {
-              fname: $("#fname").val(),
-              lname: $("#lname").val(),
-              id: $("#id").val(),
-              email: $("#email").val(),
-              phon: $("#phon").val(),
+              de: $("#de").val(),
+              des: $("#des").val(),
+              ti: $("#ti").val(),
             },
             success: function (data) {
               Swal.fire("บันทึกเที่ยวบินสำเร็จ", data[""], "success");
@@ -50,16 +48,12 @@
   <body>
     <div class="container mt-5">
       <form action="POST">
-        First Name
-        <input type="text" id="fname" class="form-control" />
-        Last Name
-        <input type="text" id="lname" class="form-control" />
-        Id Member
-        <input type="text" id="id" class="form-control" />
-        Email
-        <input type="text" id="email" class="form-control" />
-        Phon
-        <input type="text" id="phon" class="form-control" />
+        Departure Airport
+        <input type="text" id="de" class="form-control" />
+        Departure Airport
+        <input type="text" id="des" class="form-control" />
+        Time
+        <input type="text" id="ti" class="form-control" />
         <div class="d-grid gap-2">
           <input type="submit" value="add" class="btn btn-primary mt-5" />
         </div>
