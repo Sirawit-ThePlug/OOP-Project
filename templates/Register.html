@@ -59,7 +59,11 @@
               phone: $("#phone").val(),
             },
             success: function (data) {
-              Swal.fire("สมัครสมาชิกสำเร็จ", data[""], "success");
+              if (data.status === "success") {
+                Swal.fire("success", data.message, "success");
+            } else {
+              Swal.fire("Error", data.message, "error");
+            }
             },
           });
 

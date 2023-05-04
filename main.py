@@ -89,7 +89,6 @@ def check_login():
     else:
        return "Type Error"
     user_collection = database.user_account
-#    output_data = user_collection.find({"username" : username, "password" : password})
     for x in user_collection.find({ "username": username, "password": password }):
        output_data = x
     if output_data == []:
@@ -105,6 +104,7 @@ def html_register():
 
 @app.route('/add_account', methods = ['POST', 'GET'])
 def add_account():
+    output_data = []
     if request.method == 'POST':
       username = request.form['username']
       password = request.form['password']
@@ -125,9 +125,13 @@ def add_account():
     }
 
     user_collection = database.user_account
-    user_collection.insert_one(user_doc)
-
-    return "Insert OK!"
+    for x in user_collection.find({ "username": username}):
+       output_data = x
+    if output_data == []:
+       user_collection.insert_one(user_doc)
+       return jsonify({'status': 'success', 'message': 'Register Successful'})
+    else:
+       return jsonify({'status': 'error', 'message': 'Username is registered!'})
 
 @app.route('/add_figth_page',methods=['GET'])
 def add_figth_page():
@@ -136,7 +140,6 @@ def add_figth_page():
     data = []
     for i in airport:
         data.append(i['aircraft_registration'])
-
     return render_template('add_fight.html',data=data)
 
 
@@ -292,7 +295,7 @@ def find_action_Member():
         return jsonify({'status':0})
     return "YES"
 
-@app.route('/ ',methods=['POST'])
+@app.route('/find_action_Member2',methods=['POST'])
 def find_action_Member2():
     departure=request.form['departure']
     destination=request.form['destination']
@@ -321,6 +324,18 @@ def finedflight_member(departure, destination,depart_date):
     
     return render_template('show_flight_member.html', db_figth = db_figth)
 
+@app.route('/finedflight_member2/<departure>/<destination>/<depart_date>', methods=['GET'])
+def finedflight_member2(departure, destination,depart_date):
+    departure = departure
+    destination = destination
+    depart_date = depart_date
+    fight_collection = database.doc_FlightInstance
+    
+    db_figth = fight_collection.find({"opp_of_figth.departure_airpor" : departure, "opp_of_figth.destination_airport" : destination, "departure_date" : depart_date})
+
+    
+    return render_template('show_flight_member2.html', db_figth = db_figth)
+
 @app.route('/send_instance_user/<_id>', methods=['GET'])
 def send_instance_user(_id):
     _id=_id
@@ -329,68 +344,49 @@ def send_instance_user(_id):
     
     return render_template('add_flight_Instance_member.html', db_figth=db_figth[0])
 
-@app.route('/send_instance_user_seat_type/<_id>/<seat_type>', methods=['GET'])
-def send_instance_user_seat_type(_id,seat_type):
+@app.route('/send_instance_user_seat_type/<_id>/<seat_type>/<name>/<lname>/<email>/<phone>/<user_id>', methods=['POST', 'GET'])
+def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
     _id=_id
     seat_type=seat_type
-    print(_id,seat_type)
+    phone=phone
+    name=name
+    lname=lname
+    email=email
+    user_id=user_id
+
+    print(phone,name)
     fight_collection = database.doc_FlightInstance
     db_figth = fight_collection.find({"_id" : ObjectId(_id)})
+    passenger = Passenger(name,lname,email,phone).create_passenger_json()
+    a = db_figth[0]
+#    print(a.opp_of_figth.flight_price)
+    
+    price=a["opp_of_figth"]["flight_price"]
+#    create_ticket = Ticket()
+
+    if seat_type == "premium_class":
+        price_ticket=price+2000
+    if seat_type == "economy_class":
+        price_ticket=price
+    ticket_type="เที่ยวเดียว"
+    number_of_seat=1
+    ticket_status = "unpaid"
+    ticket_create= Ticket(a["_id"],ticket_type,passenger,number_of_seat,ticket_status,price_ticket,seat_type,user_id)
+    ticket_create.create_Ticket()
+    
+    # insert ticket to database 
+    
+    # detail = Detail(ticket)
+    
+    # detail create docs
+    
+    # detail insert data
+    
+    # find useracctount by id_path 
+    
+    # useraccount push detail 
+    
     
     return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)
-
-@app.route('/member_passenger_data')
-def html_member_passenger_data():
-    return render_template('passenger_data.html')
-
-@app.route('/add_passenger_data', methods = ['POST', 'GET'])
-def add_member_passenger_data():
-    if request.method == 'POST':
-      passenger_name = request.form['passenger_name']
-      passenger_last_name = request.form['passenger_last_name']
-      passenger_email = request.form['passenger_email']
-      passenger_phone =  request.form['passenger_phone']
-    else:
-       return "Type Error"
-    user = Passenger(passenger_name,passenger_last_name,passenger_email,passenger_phone)
-    user_doc = {
-        "passenger_name": user.passenger_name,
-        "passenger_last_name": user.passenger_last_name,
-        "passenger_email": user.passenger_email,
-        "passenger_phone": user.passenger_phone,
-    }
-
-    user_collection = database.doc_passenger
-    user_collection.insert_one(user_doc)
-
-    return "Insert OK!"
-
-@app.route('/create_ticket', methods = ['POST', 'GET'])
-def create_ticket():
-    if request.method == 'POST':
-      flights_id = request.form['flights_id']
-      ticket_type = request.form['ticket_type']
-      passenger = request.form['passenger']
-      number_of_seat =  request.form['number_of_seat']
-      gate =  request.form['gate']
-      ticket_status =  request.form['ticket_status']
-      ticket_price =  request.form['ticket_price']
-    else:
-       return "Type Error"
-    ticket = Ticket(flights_id,ticket_type,passenger,number_of_seat,gate,ticket_status,ticket_price) 
-    ticket_doc = {
-        "flights_id": ticket.flights_id,
-        "ticket_type": ticket.ticket_type,
-        "passenger": ticket.passenger,
-        "number_of_seat": ticket.number_of_seat,
-        "gate": ticket.gate,
-        "ticket_status": ticket.ticket_status,
-        "ticket_price": ticket.ticket_price,
-    }
-
-    user_collection = database.doc_ticket
-    user_collection.insert_one(ticket_doc)
-
-    return "Insert OK!"
 
 app.run(debug=True)
