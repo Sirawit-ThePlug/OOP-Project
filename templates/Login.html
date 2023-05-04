@@ -50,13 +50,13 @@
           success: function (data) {
             if (data.status === "success") {
               if(data['type'] == 'member'){
-                window.location.href = '/admin_page/' + $("#username").val();
+                window.location.href = '/member/' + $("#username").val();
               }
               else if(data['type'] == 'airline_counter'){
                 window.location.href = '/airline_counter/' + $("#username").val();
               }
               else{
-                window.location.href = '/member/' + $("#username").val();
+                window.location.href = '/admin_page/' + $("#username").val();
               }
               
             } else {
