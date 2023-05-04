@@ -19,8 +19,7 @@
                     data: { 
                       departure: $('#departure').val(),
                       destination: $('#destination').val(),
-                      depart_date: $('#depart_date').val(),
-                      Time_To_GO: $('#Time_To_GO').val()
+                      depart_date: $('#depart_date').val()
                   },
                     success: function (data) {
                       status = data['status']
@@ -34,7 +33,7 @@
                         })
                       }
                       else{
-                      window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val() + '/' + $('#Time_To_GO').val() ;
+                      window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val();
                       }
                         
                     },
@@ -55,9 +54,6 @@
         <input type="text" id="destination" class="form-control">
         วันที่ไฟท์บิน
         <input type="date" class="form-control" id="depart_date" name="depart_date"/>
-        เวลาที่เครื่องออก
-        <input type="Time" class="form-control" id="Time_To_GO" name="depart_date"/>
-        
         <div class="d-grid gap-2">
         <input type='submit' value='Find a flight' class='btn btn-primary mt-5' >
        

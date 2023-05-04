@@ -160,10 +160,9 @@ def find_action_Member():
     departure=request.form['departure']
     destination=request.form['destination']
     depart_date=request.form['depart_date']
-    Time_To_GO=request.form['Time_To_GO']
-    print(departure,destination,depart_date,Time_To_GO)
+    print(departure,destination,depart_date)
     fight_collection = database.doc_FlightInstance
-    count = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date ,"departure_time" : Time_To_GO})
+    count = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date })
     c=0
     for i in count:
         c = c+1
@@ -173,15 +172,14 @@ def find_action_Member():
     return "YES"
 
 
-@app.route('/finedflight_member/<departure>/<destination>/<depart_date>/<Time_To_GO>', methods=['GET'])
-def finedflight_member(departure, destination,depart_date,Time_To_GO):
+@app.route('/finedflight_member/<departure>/<destination>/<depart_date>', methods=['GET'])
+def finedflight_member(departure, destination,depart_date):
     departure = departure
     destination = destination
     depart_date = depart_date
-    Time_To_GO = Time_To_GO
     fight_collection = database.doc_FlightInstance
     
-    db_figth = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date ,"departure_time" : Time_To_GO})
+    db_figth = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date})
   
     
     return render_template('show_flight_member.html', db_figth = db_figth)
