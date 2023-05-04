@@ -42,6 +42,44 @@
   background-color: #840688b9;
 }
     </style>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+        <script>
+            $(document).ready(() => {
+                $('form').on('submit', (event) => {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/find_action_Member',
+                        data: { 
+                          departure: $('#departure').val(),
+                          destination: $('#destination').val(),
+                          depart_date: $('#depart_date').val()
+                      },
+                        success: function (data) {
+                          status = data['status']
+                          if(status==0){
+                            //asdasdasdasdasd
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Oops...',
+                              text: 'Something went wrong!',
+                              footer: '<a href="">Why do I have this issue?</a>'
+                            })
+                          }
+                          else{
+                          window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val();
+                          }
+                            
+                        },
+                    })
+            
+                    event.preventDefault();
+                });
+            return false;
+        });
+        </script>
   </head>
   <body class="w3-light-grey bg-colo-warning">
     <!-- Navigation Bar -->
@@ -53,13 +91,14 @@
           alt="Logo"
           style="height: 24px; width: 24px"
       /></a>
-      <a href="home" class="w3-bar-item w3-button w3-mobile">Search</a>
+      <a href="/" class="w3-bar-item w3-button w3-mobile">Search</a>
       <a href="https://www.thaiairways.com/en/about_thai/company_profile/index.page" class="w3-bar-item w3-button w3-mobile">About</a>
       <a href="https://www.thaiairways.com/en_TH/help/contact_us/index.page" class="w3-bar-item w3-button w3-mobile">Contact</a>
       <a
-        href="/"
+        href="/login"
         class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile"
-        >Welcome {{insert1.username}}, Logout</a>
+        >Welcome {{insert1.username}}, Logout</a
+      >
     </div>
     <form action="/login">
       <div class="form-group">
@@ -79,6 +118,28 @@
                         text-align: left;
                       "
                     >
+                    <li>ชนิดการเดินทาง:</li>
+                      <li>
+                        <a href="/member_oneway/{{insert1.username}}" class="btn btn-primary">เที่ยวเดียว</a>
+                      </li>
+
+                      <li>
+                        <br><a href="/member_return/{{insert1.username}}" class="btn btn-primary">เที่ยวไปกลับ</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-body text-center">
+                    <ul
+                      class="text-left"
+                      style="
+                        list-style-type: none;
+                        padding-left: 0;
+                        text-align: left;
+                      "
+                    >
                       <li class="text-left" style="padding-left: 0px">
                         วันที่ออกเดินทาง: <br />
                       </li>
@@ -87,22 +148,22 @@
                         <input
                           type="date"
                           class="form-control"
-                          id="departure_date"
-                          name="departure_date"
+                          id="depart_date"
+                          name="depart_date"
                         />
                       </li>
-                      <li>ชั้นที่นั่ง:</li>
+                      <!--  <li>ชั้นที่นั่ง:</li>
 
-                      <li>
+                        <li>
                         <select
                           class="form-control"
                           id="seat_type"
                           name="SeatType"
                         >
-                        <option value="economy">Economy Class</option>
-                        <option value="firstclass">First Class</option>
+                          <option value="economy">Economy Class</option>
+                          <option value="firstclass">First Class</option>
                         </select>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                 </div>
@@ -125,15 +186,16 @@
 
                       <li>
                         <select
-                          class="form-control"
-                          id="first_station"
-                          name="first_station"
-                        >
-                        <option value="กรุงเทพสุวรรณภูมิ">กรุงเทพสุวรรณภูมิ</option>
-                        <option value="เชียงใหม่">เชียงใหม่</option>
-                        <option value="ขอนแก่น">ขอนแก่น</option>
-                        <option value="ภูเก็ต">ภูเก็ต</option>
-                        </select>
+                      class="form-control"
+                      id="departure"
+                      name="departure"
+                    >
+                      {% for a in input1 %}
+                      <option value="{{ a }}">
+                        {{ a }}
+                      </option>
+                      {% endfor %}
+                    </select>
                       </li>
                       <!-- <li>วันที่เดินทางกลับ:</li>
                       <li>
@@ -166,16 +228,18 @@
 
                       <li>
                         <select
-                          class="form-control"
-                          id="first_station"
-                          name="first_station"
-                        >
-                        <option value="กรุงเทพสุวรรณภูมิ">กรุงเทพสุวรรณภูมิ</option>
-                        <option value="เชียงใหม่">เชียงใหม่</option>
-                        <option value="ขอนแก่น">ขอนแก่น</option>
-                        <option value="ภูเก็ต">ภูเก็ต</option>
-                        </select>
+                      class="form-control"
+                      id="destination"
+                      name="destination"
+                    >
+                      {% for b in input2 %}
+                      <option value="{{ b }}">
+                        {{ b }}
+                      </option>
+                      {% endfor %}
+                    </select>
                       </li>
+                      
                     </ul>
                     <button
                       type="submit"
