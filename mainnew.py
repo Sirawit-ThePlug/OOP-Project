@@ -149,6 +149,10 @@ def add_FlightInstance():
     return "Success"
 
 
+@app.route('/Find_Flight_member_2')
+def Find_Flight_member_2():
+    return render_template('find_fight_member2.html')
+
 
 @app.route('/Find_Flight_member')
 def Find_Flight_member():
@@ -191,6 +195,16 @@ def send_instance_user(_id):
     db_figth = fight_collection.find({"_id" : ObjectId(_id)})
     
     return render_template('add_flight_Instance_member.html', db_figth=db_figth[0])
+
+@app.route('/send_instance_user_seat_type/<_id>/<seat_type>', methods=['GET'])
+def send_instance_user_seat_type(_id,seat_type):
+    _id=_id
+    seat_type=seat_type
+    print(_id,seat_type)
+    fight_collection = database.doc_FlightInstance
+    db_figth = fight_collection.find({"_id" : ObjectId(_id)})
+    
+    return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)
 # @app.route('/add_FlightInstance')
 # def 
 app.run(debug=True)
