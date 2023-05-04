@@ -22,12 +22,26 @@
                     total_premium_seat: $('#total_premium_seat').val()
               },
                 success: function (data) {
-                    Swal.fire(
-                        'สร้างเครื่องบินสำเร็จแล้ว',
+                  status = data['status']
+                  if(status==0){
+                    //asdasdasdasdasd
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Something went wrong!',
+                      footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+                else{
+                  Swal.fire(
+                      
+                        'บันทึกเที่ยวบินสำเร็จ',
                         data[''],
                         'success'
                     )
-                },
+                }
+                  
+              },
             })
 
             event.preventDefault();

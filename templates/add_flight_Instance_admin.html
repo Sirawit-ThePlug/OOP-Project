@@ -11,40 +11,33 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(document).ready(() => {
-          $('form').on('submit', (event) => {
-              $.ajax({
-                  type: 'POST',
-                  url: '/add_FlightInstance_admin',
-                  data: { 
-                    departure_airpor: $('#departure_airpor').val(),
-                    destination_airport: $('#destination_airport').val(),
-                    travel_time: $('#travel_time').val(),
-                    depart_date: $('#depart_date').val(),
-                    Time_To_GO: $('#Time_To_GO').val(),
-                    id_figth: $('#id_figth').val(),
-                    flight_price: $('#flight_price').val()
-                    
-                    
-                },
-                  success: function (data) {
-                      Swal.fire(
-                          'บันทึกเที่ยวบินสำเร็จ',
-                          data[''],
-                          'success'
-                      )
-                  },
-              })
-  
-              event.preventDefault();
-          });
-          return false;
+      $(document).ready(function (e){
+        $('#go').on('click', function(){
+
+          $.ajax({
+            type: 'POST',
+            url: '/add_FlightInstance_admin',
+            data: { 
+              Time_To_GO: $('#Time_To_GO').val(),
+              depart_date: $('#depart_date').val(),
+              id_figth: $('#id_figth').val()
+          },
+            success: function (data) {
+                Swal.fire(
+                    'บันทึกเที่ยวบินสำเร็จ',
+                    data[''],
+                    'success'
+                )
+            },
+          }); 
+          
+        }); 
       });
-      </script>
+    </script>
   </head>
   <body>
     <div class="container mt-5">
-       <form action="POST">
+
         <div class="mb-3 row">
             <label for="staticEmail" class="col-sm-2 col-form-label">ต้นทาง</label>
             <div class="col-sm-10">
@@ -72,12 +65,12 @@
         <input type="Time" id="Time_To_GO" class="form-control">
         <input type="hidden" id='id_figth' value={{db_figth._id}}>
         <div class="d-grid gap-2">
-            <input type='submit' value='บึนทึกการจองไฟทต์' class='btn btn-primary mt-3' >
+          <button id="go" class='btn btn-primary mt-3'>เพิ่มเที่ยวไฟทบิน</button>
           </div>
         </div>
         
         
-       </form>
+
     </div>
   </body>
 </html>

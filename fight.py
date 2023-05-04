@@ -1,11 +1,12 @@
 from init_database import init_db
 class Fligth:
-    def __init__(self,departure_airpor,destination_airport,travel_time,flight_price):
+    def __init__(self,departure_airpor,destination_airport,travel_time,flight_price, air_port):
         self.__fligth_id=None
         self.__departure_airpor=departure_airpor
         self.__destination_airport=destination_airport
         self.__travel_time=travel_time
         self.__flight_price=flight_price
+        self.__air_port = air_port
     @property
     def fligth_id(self):
         return self.__fligth_id
@@ -45,6 +46,15 @@ class Fligth:
     @travel_time.setter
     def flight_price(self, new_price):
         self.__flight_price = new_price
+        
+    @property
+    def air_port(self):
+        return self.__air_port
+    
+    @air_port.setter
+    def air_port(self, air_port):
+        self.__air_port = air_port
+        
             
         
     def create_fligth(self):
@@ -53,7 +63,8 @@ class Fligth:
         "departure_airpor" : self.__departure_airpor,
         "destination_airport" : self.__destination_airport,
         "travel_time" : self.__travel_time,
-        "flight_price" : self.__flight_price
+        "flight_price" : self.__flight_price,
+        "air_port" : self.__air_port
         }
         Doc_passenger_collection = init_db().doc_fligth
         Doc_passenger_collection.insert_one(fligth_doc)

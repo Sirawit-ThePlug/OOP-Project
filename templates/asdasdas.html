@@ -1,0 +1,19 @@
+alert("jalisgfghiasgfuiasgf");
+$.ajax({
+  type: 'POST',
+  url: '/add_figth',
+  data: { 
+    de: $('#de').val(),
+    des: $('#des').val(),
+    ti: $('#ti').val(),
+    price: $('#price').val(),
+    ID_airpla: $('#ID_airpla').val()
+},
+  success: function (data) {
+      Swal.fire(
+          'บันทึกเที่ยวบินสำเร็จ',
+          data[''],
+          'success'
+      )
+  },
+}); 

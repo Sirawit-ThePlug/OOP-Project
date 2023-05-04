@@ -15,11 +15,13 @@
             $('form').on('submit', (event) => {
                 $.ajax({
                     type: 'POST',
-                    url: '/find_action_Member',
+                    url: '/find_action_Member2',
                     data: { 
                       departure: $('#departure').val(),
                       destination: $('#destination').val(),
-                      depart_date: $('#depart_date').val()
+                      depart_date: $('#depart_date').val(),
+                      depart_date_2: $('#depart_date_2').val()
+                      
                   },
                     success: function (data) {
                       status = data['status']
@@ -33,7 +35,7 @@
                         })
                       }
                       else{
-                      window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val();
+                      window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val() + '/' + $('#depart_date_2').val();
                       }
                         
                     },

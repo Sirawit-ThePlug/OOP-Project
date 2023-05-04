@@ -12,6 +12,27 @@ my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87n
 database = my_client.tg_database
 
 app = Flask(__name__)
+
+# def get_airport(value):
+#     get_airplane = []
+#     destination_airport_list = []
+#     airport_collection = database.doc_airplane
+#     airport = airport_collection.find().sort("name")
+#     for x in airport:
+#       get_departure_airport.append(x['departure_airpor'])
+#       get_destination_airport.append(x['destination_airport'])
+   
+#     if value == "departure":
+#       for x in range( len(get_departure_airport) ):
+#          if get_departure_airport[x] not in departure_airport_list:
+#             departure_airport_list.append( get_departure_airport[x] )
+#       return departure_airport_list
+#     else:
+#       for x in range( len(get_departure_airport) ):
+#          if get_destination_airport[x] not in destination_airport_list:
+#             destination_airport_list.append( get_destination_airport[x] )
+#       return destination_airport_list
+
  
 @app.route('/add_account')
 def add_account():
@@ -31,9 +52,17 @@ def add_account():
 
     return "Insert OK!"
 
-@app.route('/add_figth_page')
+@app.route('/add_figth_page',methods=['GET'])
 def add_figth_page():
-    return render_template('add_fight.html')
+    db_airplan = database.doc_airplane
+    airport = db_airplan.find().sort("aircraft_registration")
+    data = []
+    for i in airport:
+        data.append(i['aircraft_registration'])
+   
+    
+    
+    return render_template('add_fight.html',data=data)
 
 
 @app.route('/add_passenger',methods=["POST"])
@@ -50,12 +79,15 @@ def add_passenger():
 
 @app.route('/add_figth',methods=["POST"])
 def add_figth():
+    ID_airpla = request.form['ID_airpla']
     de = request.form['de']
     des = request.form['des']
     ti = request.form['ti']
     price = request.form['price']
-    print(de)
-    passenger = Fligth(de,des,ti,price)
+
+    db_airplan= database.doc_airplane
+    airport = db_airplan.find({"aircraft_registration":ID_airpla})
+    passenger = Fligth(de,des,ti,price,airport[0])
     passenger.create_fligth()
     return "Success"
 
@@ -121,10 +153,22 @@ def add_airplane():
     registration = request.form['registration']
     total_economic_seat = request.form['total_economic_seat']
     total_premium_seat = request.form['total_premium_seat']
-
+    AirPlane_db=database.doc_airplane
     passenger = AirPlane(registration,total_economic_seat,total_premium_seat)
-    passenger.create_airplane()
-    return "Success"
+    count = AirPlane_db.find({"aircraft_registration" : registration})
+    print(registration)
+    c = 0
+    for i in count:
+        c = c+1
+    print(c)
+    if c > 0:
+        return jsonify({'status':0})
+    else:
+        passenger.create_airplane()
+    return ""
+
+    
+    
 
 @app.route('/add_airplanepage')
 def add_airplanepage():
@@ -136,15 +180,13 @@ def add_accout_page():
 
 @app.route('/add_FlightInstance_admin',methods=["POST"])
 def add_FlightInstance():
-
-    departure_airpor = request.form['departure_airpor']
-    destination_airport = request.form['destination_airport']
-    travel_time = request.form['travel_time']
+    id_figth = request.form['id_figth']
     depart_date = request.form['depart_date']
     Time_To_GO = request.form['Time_To_GO']
-    flight_price = request.form['flight_price']
-    
-    passenger = FlightInstance(departure_airpor,destination_airport,travel_time,depart_date,Time_To_GO,flight_price)
+    findbd=database.doc_fligth
+    db_figth = findbd.find({"_id" : ObjectId(id_figth)})
+    a = db_figth[0]
+    passenger = FlightInstance(depart_date,Time_To_GO,a)
     passenger.create_FlightInstance()
     return "Success"
 
@@ -161,6 +203,22 @@ def Find_Flight_member():
 
 @app.route('/find_action_Member',methods=['POST'])
 def find_action_Member():
+    departure=request.form['departure']
+    destination=request.form['destination']
+    depart_date=request.form['depart_date']
+    print(departure,destination,depart_date)
+    fight_collection = database.doc_FlightInstance
+    count = fight_collection.find({"opp_of_figth.departure_airpor" : departure, "opp_of_figth.destination_airport" : destination, "departure_date" : depart_date })
+    c=0
+    for i in count:
+        c = c+1
+    print(c)
+    if c == 0:
+        return jsonify({'status':0})
+    return "YES"
+
+@app.route('/ ',methods=['POST'])
+def find_action_Member2():
     departure=request.form['departure']
     destination=request.form['destination']
     depart_date=request.form['depart_date']
@@ -183,7 +241,7 @@ def finedflight_member(departure, destination,depart_date):
     depart_date = depart_date
     fight_collection = database.doc_FlightInstance
     
-    db_figth = fight_collection.find({"departure_airpor" : departure, "destination_airport" : destination, "departure_date" : depart_date})
+    db_figth = fight_collection.find({"opp_of_figth.departure_airpor" : departure, "opp_of_figth.destination_airport" : destination, "departure_date" : depart_date})
   
     
     return render_template('show_flight_member.html', db_figth = db_figth)
@@ -207,4 +265,8 @@ def send_instance_user_seat_type(_id,seat_type):
     return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)
 # @app.route('/add_FlightInstance')
 # def 
+
+#-----------------------------------------------------------------------------#
+
+
 app.run(debug=True)

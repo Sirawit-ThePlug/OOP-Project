@@ -15,12 +15,12 @@
     {%for i in db_figth%}
     <div class="card">
         <div class="card-header">
-          <strong>เที่ยวบิน</strong> {{i.departure_airpor }} - {{i.destination_airport }}
+          <strong>เที่ยวบิน</strong> {{i.opp_of_figth.departure_airpor }} - {{i.opp_of_figth.destination_airport }}
         </div>
         <div class="card-body ">
             <div class="d-flex justify-content-between">
                 <div class="">
-                    <li><strong>ต้นทาง:</strong> {{i.departure_airpor }} <strong>ปลายทาง:</strong> {{i.destination_airport }} <strong>เวลาในการเดินทาง:</strong> {{i.travel_time}} <strong>เวลาในการเดินทาง:</strong> {{i.departure_time}} <strong>ราคาเที่ยวบิน:</strong> {{i.flight_price}} <strong>วันที่ไฟท์บิน:</strong> {{i.departure_date}}
+                    <li><strong>ต้นทาง:</strong> {{i.opp_of_figth.departure_airpor }} <strong>ปลายทาง:</strong> {{i.opp_of_figth.destination_airport }} <strong>เวลาในการเดินทาง:</strong> {{i.opp_of_figth.travel_time}} <strong>เวลาในการเดินทาง:</strong> {{i.departure_time}} <strong>ราคาเที่ยวบิน:</strong> {{i.opp_of_figth.flight_price}} <strong>วันที่ไฟท์บิน:</strong> {{i.departure_date}}
                        
                 </div>
                 
