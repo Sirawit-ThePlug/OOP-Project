@@ -1,16 +1,22 @@
+from init_database import init_db
 class Ticket:
-    def __init__(self,flights_id,ticket_type,passenger,number_of_seat,gate,ticket_status,ticket_price):
-        self.__flights_id = flights_id
+    def __init__(self,FlightInstance_id,ticket_type,passenger,number_of_seat,ticket_status,ticket_price,type_seat,user_id):
+        self.__FlightInstance_id = FlightInstance_id
         self.__ticket_type = ticket_type
         self.__passenger = passenger
         self.__number_of_seat = number_of_seat
-        self.__gate = gate
         self.__ticket_status = ticket_status
         self.__ticket_price = ticket_price
+        self.__type_seat=type_seat
+        self.__user_id=user_id
 
     @property
-    def flights_id(self):
-        return self.__flights_id
+    def FlightInstance_id(self):
+        return self.__FlightInstance_id
+    
+    @property
+    def type_seat(self):
+        return self.__type_seat
     
     @property
     def ticket_type(self):
@@ -36,9 +42,16 @@ class Ticket:
     def ticket_price(self):
         return self.__ticket_price
     
-    @flights_id.setter
-    def flights_id(self, edit_flights_id):
-        self.__flights_id = edit_flights_id
+    
+        
+    @property
+    def user_id(self):
+        return self.__user_id
+    
+    
+    @FlightInstance_id.setter
+    def FlightInstance_id(self, edit_FlightInstance_id):
+        self.__FlightInstance_id = edit_FlightInstance_id
 
     @ticket_type.setter
     def ticket_type(self, edit_ticket_type):
@@ -63,3 +76,28 @@ class Ticket:
     @ticket_price.setter
     def ticket_price(self, edit_ticket_price):
         self.__ticket_price = edit_ticket_price
+    
+    @type_seat.setter
+    def type_seat(self, edit_type_seat):
+        self.__type_seat = edit_type_seat
+    
+    @user_id.setter
+    def user_id(self, edit_user_id):
+        self.__user_id = edit_user_id
+    
+        
+    def create_Ticket(self):
+        Ticket_doc = {
+        "FlightInstance_id" : self.__FlightInstance_id,
+        "ticket_type" : self.__ticket_type,
+        "passenger" : self.__passenger,
+        "number_of_seat" : self.__number_of_seat,
+        "ticket_status" : self.__ticket_status,
+        "ticket_price" : self.__ticket_price,
+        "type_seat" : self.__type_seat,
+        "user_id" : self.__user_id
+        }
+
+        Doc_passenger_collection = init_db().Ticket
+        Doc_passenger_collection.insert_one(Ticket_doc)
+        

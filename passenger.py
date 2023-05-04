@@ -38,8 +38,14 @@ class Passenger:
     @passenger_phone.setter
     def passenger_phone(self, new_phon):
         self.__passenger_phone = new_phon
-        
     
+    def create_passenger_json(self):
+        return {
+            "passenger_name" : self.__passenger_name,
+            "passenger_last_name" : self.__passenger_last_name,
+            "passenger_email" : self.__passenger_email,
+            "passenger_phone" : self.__passenger_phone
+        }
     
     def create_passenger_docs(self):
         passenger_doc = {

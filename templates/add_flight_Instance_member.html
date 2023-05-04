@@ -15,10 +15,10 @@
         $('#go').on('click', function(){
           var seat_type = $('#seat_type').val()
           var name = $('#name').val()
-          var phone = $('#phone').val()
           var lname = $('#lname').val()
+          var phone = $('#phone').val()
           var email = $('#email').val()
-          window.location.href = '/send_instance_user_seat_type/{{db_figth._id}}/' + seat_type 
+          window.location.href = '/send_instance_user_seat_type/{{db_figth._id}}/' + seat_type + '/' + name + '/' + lname + '/' + email + '/' + phone
         }); 
       });
     </script>
