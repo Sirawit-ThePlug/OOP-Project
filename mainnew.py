@@ -1,4 +1,4 @@
-import ssl
+
 from flask import Flask, request, jsonify, render_template
 import pymongo
 from my_class.account import Account, Member, Admin
@@ -8,11 +8,13 @@ from FlightInstance import FlightInstance
 from AirPlane import AirPlane
 from bson.objectid import ObjectId
 from passenger import Passenger
+from ticket import Ticket
+
 
 my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority")
 database = my_client.tg_database
 
-app = Flask(__name__)
+app = Flask("__name__")
 
 # def get_airport(value):
 #     get_airplane = []
@@ -267,23 +269,35 @@ def send_instance_user(_id):
     
     return render_template('add_flight_Instance_member.html', db_figth=db_figth[0])
 
-@app.route('/send_instance_user_seat_type/<_id>/<seat_type>', methods=['POST'])
-def send_instance_user_seat_type(_id,seat_type):
+@app.route('/send_instance_user_seat_type/<_id>/<seat_type>/<name>/<lname>/<email>/<phone>/<user_id>', methods=['POST', 'GET'])
+def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
     _id=_id
     seat_type=seat_type
-    phone=request.form['phone']
-    name=request.form['name']
-    lname=request.form['lname']
-    email=request.form['email']
+    phone=phone
+    name=name
+    lname=lname
+    email=email
+    user_id=user_id
 
     print(phone,name)
     fight_collection = database.doc_FlightInstance
-    passenger = Passenger(name,lname,email,phone)
-    print("dasdfdsfs",seat_type,passenger)
-    # if seat_type ==
-    # ticket = Ticekt(...,..., fight_collection, passenger)
-   
-    # ticekt create docs 
+    db_figth = fight_collection.find({"_id" : ObjectId(_id)})
+    passenger = Passenger(name,lname,email,phone).create_passenger_json()
+    a = db_figth[0]
+#    print(a.opp_of_figth.flight_price)
+    
+    price=a["opp_of_figth"]["flight_price"]
+#    create_ticket = Ticket()
+
+    if seat_type == "premium_class":
+        price_ticket=price+2000
+    if seat_type == "economy_class":
+        price_ticket=price
+    ticket_type="เที่ยวเดียว"
+    number_of_seat=1
+    ticket_status = "unpaid"
+    ticket_create= Ticket(a["_id"],ticket_type,passenger,number_of_seat,ticket_status,price_ticket,seat_type,user_id)
+    ticket_create.create_Ticket()
     
     # insert ticket to database 
     
@@ -297,10 +311,6 @@ def send_instance_user_seat_type(_id,seat_type):
     
     # useraccount push detail 
     
-    
-        
-    
-    db_figth = fight_collection.find({"_id" : ObjectId(_id)})
     
     return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)
 # @app.route('/add_FlightInstance')
