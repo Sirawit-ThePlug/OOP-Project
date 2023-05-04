@@ -297,8 +297,10 @@ def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
     number_of_seat=1
     ticket_status = "unpaid"
     ticket_create= Ticket(a["_id"],ticket_type,passenger,number_of_seat,ticket_status,price_ticket,seat_type,user_id)
-    ticket_create.create_Ticket()
-    
+    detail_id=ticket_create.create_Ticket()
+    db_ticket=database.Ticket
+    data_ticket = db_ticket.find({"_id" : detail_id})
+    data_ticket=data_ticket[0]
     # insert ticket to database 
     
     # detail = Detail(ticket)
@@ -312,7 +314,7 @@ def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
     # useraccount push detail 
     
     
-    return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)
+    return render_template('Ticket.html', data_ticket=data_ticket)
 # @app.route('/add_FlightInstance')
 # def 
 
