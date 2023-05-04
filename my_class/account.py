@@ -94,3 +94,34 @@ class Admin(Account):
     @phone.setter
     def phone(self, edit_phone):
         self.__phone = edit_phone
+
+class AirlineCounter(Account):
+    def __init__(self, username, password, status, name, email, phone):
+        super().__init__(username, password, status)
+        self.__name = name
+        self.__email = email
+        self.__phone = phone
+
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def email(self):
+        return self.__email
+    
+    @property
+    def phone(self):
+        return self.__phone
+    
+    @name.setter
+    def name(self, edit_name):
+        self.__name = edit_name
+    
+    @email.setter
+    def email(self, edit_email):
+        self.__email = edit_email
+
+    @phone.setter
+    def phone(self, edit_phone):
+        self.__phone = edit_phone
