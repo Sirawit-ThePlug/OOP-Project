@@ -14,7 +14,11 @@
       $(document).ready(function (e){
         $('#go').on('click', function(){
           var seat_type = $('#seat_type').val()
-          window.location.href = '/send_instance_user_seat_type/{{db_figth._id}}/' + seat_type
+          var name = $('#name').val()
+          var phone = $('#phone').val()
+          var lname = $('#lname').val()
+          var email = $('#email').val()
+          window.location.href = '/send_instance_user_seat_type/{{db_figth._id}}/' + seat_type 
         }); 
       });
     </script>
@@ -62,7 +66,15 @@
     </select>
     <input type="hidden" id="flight_price" value="{{db_figth._id}}">
         <div class="d-grid gap-2">
-            
+          ชื่อ
+          <input type="text" id="name" class="form-control">
+          นามสกุล
+          <input type="text" id="lname" class="form-control">
+          เบอร์ผู้จองตั๋ว
+          <input type="text" id="phone" class="form-control">
+          อีเมลล์
+          <input type="text" id="email" class="form-control">
+          
             <button id="go" class='btn btn-primary mt-3'>จองเที่ยวบิน</button>
           </div>
         </div>

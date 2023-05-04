@@ -7,6 +7,7 @@ from fight import Fligth
 from FlightInstance import FlightInstance
 from AirPlane import AirPlane
 from bson.objectid import ObjectId
+from passenger import Passenger
 
 my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority")
 database = my_client.tg_database
@@ -217,7 +218,7 @@ def find_action_Member():
         return jsonify({'status':0})
     return "YES"
 
-@app.route('/ ',methods=['POST'])
+@app.route('/find_action_Member2',methods=['POST'])
 def find_action_Member2():
     departure=request.form['departure']
     destination=request.form['destination']
@@ -246,6 +247,18 @@ def finedflight_member(departure, destination,depart_date):
     
     return render_template('show_flight_member.html', db_figth = db_figth)
 
+@app.route('/finedflight_member2/<departure>/<destination>/<depart_date>', methods=['GET'])
+def finedflight_member2(departure, destination,depart_date):
+    departure = departure
+    destination = destination
+    depart_date = depart_date
+    fight_collection = database.doc_FlightInstance
+    
+    db_figth = fight_collection.find({"opp_of_figth.departure_airpor" : departure, "opp_of_figth.destination_airport" : destination, "departure_date" : depart_date})
+
+    
+    return render_template('show_flight_member2.html', db_figth = db_figth)
+
 @app.route('/send_instance_user/<_id>', methods=['GET'])
 def send_instance_user(_id):
     _id=_id
@@ -254,12 +267,39 @@ def send_instance_user(_id):
     
     return render_template('add_flight_Instance_member.html', db_figth=db_figth[0])
 
-@app.route('/send_instance_user_seat_type/<_id>/<seat_type>', methods=['GET'])
+@app.route('/send_instance_user_seat_type/<_id>/<seat_type>', methods=['POST'])
 def send_instance_user_seat_type(_id,seat_type):
     _id=_id
     seat_type=seat_type
-    print(_id,seat_type)
+    phone=request.form['phone']
+    name=request.form['name']
+    lname=request.form['lname']
+    email=request.form['email']
+
+    print(phone,name)
     fight_collection = database.doc_FlightInstance
+    passenger = Passenger(name,lname,email,phone)
+    print("dasdfdsfs",seat_type,passenger)
+    # if seat_type ==
+    # ticket = Ticekt(...,..., fight_collection, passenger)
+   
+    # ticekt create docs 
+    
+    # insert ticket to database 
+    
+    # detail = Detail(ticket)
+    
+    # detail create docs
+    
+    # detail insert data
+    
+    # find useracctount by id_path 
+    
+    # useraccount push detail 
+    
+    
+        
+    
     db_figth = fight_collection.find({"_id" : ObjectId(_id)})
     
     return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)

@@ -35,7 +35,7 @@
                         })
                       }
                       else{
-                      window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val() + '/' + $('#depart_date_2').val();
+                      window.location.href = '/finedflight_member2/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val() + '/' + $('#depart_date_2').val();
                       }
                         
                     },
@@ -50,17 +50,15 @@
   <body>
     
     <div class="container mt-5">
-      <a href="/Find_Flight_member" class="btn btn-primary">เที่ยวเดียว</a>       <a href="/Find_Flight_member_2" class="btn btn-primary">เที่ยวไปกลับ</a>
+      <a href="/Find_Flight_member" class="btn btn-primary">เที่ยวเดียว</a>       
         <form action="POST">
+        
         ต้นทาง
         <input type="text" id="departure" class="form-control">
         ปลายทาง
         <input type="text" id="destination" class="form-control">
-        วันที่ไฟท์บิน
+        วันที่ไป
         <input type="date" class="form-control" id="depart_date" name="depart_date"/>
-        <div class="d-grid gap-2">
-        วันที่ไฟท์บินกลับ
-        <input type="date" class="form-control" id="depart_date_2" name="depart_date"/>
         <div class="d-grid gap-2">
         <input type='submit' value='Find a flight' class='btn btn-primary mt-5' >
        
