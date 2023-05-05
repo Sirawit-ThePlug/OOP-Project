@@ -9,7 +9,7 @@ from AirPlane import AirPlane
 from bson.objectid import ObjectId
 from ticket import Ticket
 
-my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority",tls=True,tlsAllowInvalidCertificates=True)
+my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority",tls=True,tlsAllowInvalidCertificates=True) #,tls=True,tlsAllowInvalidCertificates=True
 database = my_client.tg_database
 
 app = Flask(__name__)
