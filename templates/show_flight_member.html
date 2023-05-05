@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Thai Airway</title>f
+    <title>Thai Airway</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
@@ -56,6 +56,11 @@
       <a href="/" class="w3-bar-item w3-button w3-mobile">Search</a>
       <a href="https://www.thaiairways.com/en/about_thai/company_profile/index.page" class="w3-bar-item w3-button w3-mobile">About</a>
       <a href="https://www.thaiairways.com/en_TH/help/contact_us/index.page" class="w3-bar-item w3-button w3-mobile">Contact</a>
+      <a
+        href="/login"
+        class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile"
+        >Welcome {{insert1}}, Logout</a
+      >
     </div>
     <div class='container mt-5'>
       {%for i in db_figth%}
@@ -71,7 +76,7 @@
                   </div>
                   
                   <div>
-                      <a href="/send_instance_user/{{i._id}}" class="btn btn-primary">จองเลยไหมครับคุณลูกค้าที่เคารพ</a></li>   
+                      <a href="/send_instance_user/{{insert1}}/{{i._id}}" class="btn btn-primary">จองเลยไหมครับคุณลูกค้าที่เคารพ</a></li>   
                   </div>
               </div>
                

@@ -9,7 +9,7 @@ from AirPlane import AirPlane
 from bson.objectid import ObjectId
 from ticket import Ticket
 
-my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority", ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
+my_client = pymongo.MongoClient("mongodb+srv://65015155:65015155@cluster-oop.87ntyhp.mongodb.net/?retryWrites=true&w=majority",tls=True,tlsAllowInvalidCertificates=True)
 database = my_client.tg_database
 
 app = Flask(__name__)
@@ -56,6 +56,7 @@ def html_index_admin(user):
 
 @app.route('/member_oneway/<user>',methods=['GET'])
 def html_index_member_oneway(user):
+   user = user
    departure = get_airport("departure")
    destination = get_airport("destination")
    user_collection = database.user_account
@@ -312,8 +313,9 @@ def find_action_Member2():
     return "YES"
 
 
-@app.route('/finedflight_member/<departure>/<destination>/<depart_date>', methods=['GET'])
-def finedflight_member(departure, destination,depart_date):
+@app.route('/finedflight_member/<user>/<departure>/<destination>/<depart_date>', methods = ['POST', 'GET'])
+def finedflight_member(user,departure, destination,depart_date):
+    user = user
     departure = departure
     destination = destination
     depart_date = depart_date
@@ -322,7 +324,7 @@ def finedflight_member(departure, destination,depart_date):
     db_figth = fight_collection.find({"opp_of_figth.departure_airpor" : departure, "opp_of_figth.destination_airport" : destination, "departure_date" : depart_date})
   
     
-    return render_template('show_flight_member.html', db_figth = db_figth)
+    return render_template('show_flight_member.html', insert1 = user , db_figth = db_figth)
 
 @app.route('/finedflight_member2/<departure>/<destination>/<depart_date>', methods=['GET'])
 def finedflight_member2(departure, destination,depart_date):
@@ -336,13 +338,15 @@ def finedflight_member2(departure, destination,depart_date):
     
     return render_template('show_flight_member2.html', db_figth = db_figth)
 
-@app.route('/send_instance_user/<_id>', methods=['GET'])
-def send_instance_user(_id):
+
+@app.route('/send_instance_user/<user>/<_id>', methods=['GET'])
+def send_instance_user(user,_id):
     _id=_id
+    user=user
     fight_collection = database.doc_FlightInstance
     db_figth = fight_collection.find({"_id" : ObjectId(_id)})
     
-    return render_template('add_flight_Instance_member.html', db_figth=db_figth[0])
+    return render_template('add_flight_Instance_member.html', db_figth=db_figth[0] ,insert1=user)
 
 @app.route('/send_instance_user_seat_type/<_id>/<seat_type>/<name>/<lname>/<email>/<phone>/<user_id>', methods=['POST', 'GET'])
 def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
@@ -372,8 +376,10 @@ def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
     number_of_seat=1
     ticket_status = "unpaid"
     ticket_create= Ticket(a["_id"],ticket_type,passenger,number_of_seat,ticket_status,price_ticket,seat_type,user_id)
-    ticket_create.create_Ticket()
-    
+    detail_id=ticket_create.create_Ticket()
+    db_ticket=database.Ticket
+    data_ticket = db_ticket.find({"_id" : detail_id})
+    data_ticket=data_ticket[0]
     # insert ticket to database 
     
     # detail = Detail(ticket)
@@ -387,6 +393,6 @@ def send_instance_user_seat_type(_id,seat_type,name,lname,email,phone,user_id):
     # useraccount push detail 
     
     
-    return render_template('Ticket.html', db_figth=db_figth[0],seat_type=seat_type)
+    return render_template('Ticket.html', data_ticket=data_ticket)
 
 app.run(debug=True)

@@ -99,4 +99,5 @@ class Ticket:
         }
 
         Doc_passenger_collection = init_db().Ticket
-        Doc_passenger_collection.insert_one(Ticket_doc)
+        result = Doc_passenger_collection.insert_one(Ticket_doc)
+        return result.inserted_id

@@ -53,6 +53,7 @@
                         type: 'POST',
                         url: '/find_action_Member',
                         data: { 
+
                           departure: $('#departure').val(),
                           destination: $('#destination').val(),
                           depart_date: $('#depart_date').val()
@@ -69,7 +70,7 @@
                             })
                           }
                           else{
-                          window.location.href = '/finedflight_member/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val();
+                          window.location.href = '/finedflight_member/' + $('#username').val() + '/' + $('#departure').val() + '/' + $('#destination').val() + '/' + $('#depart_date').val();
                           }
                             
                         },
@@ -247,6 +248,7 @@
                     >
                       จองและซื้อ
                     </button>
+                    <input type="hidden" id="username" value="{{insert1.username}}">
                   </div>
                 </div>
               </div>

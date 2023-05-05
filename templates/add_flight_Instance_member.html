@@ -54,7 +54,8 @@
           var lname = $('#lastname').val()
           var phone = $('#phone').val()
           var email = $('#email').val()
-          window.location.href = '/send_instance_user_seat_type/{{db_figth._id}}/' + seat_type + '/' + name + '/' + lname + '/' + email + '/' + phone
+          var user =$('#username').val()
+          window.location.href = '/send_instance_user_seat_type/{{db_figth._id}}/' + seat_type + '/' + name + '/' + lname + '/' + email + '/' + phone + '/' + user
         }); 
       });
     </script>
@@ -72,6 +73,11 @@
       <a href="/" class="w3-bar-item w3-button w3-mobile">Search</a>
       <a href="https://www.thaiairways.com/en/about_thai/company_profile/index.page" class="w3-bar-item w3-button w3-mobile">About</a>
       <a href="https://www.thaiairways.com/en_TH/help/contact_us/index.page" class="w3-bar-item w3-button w3-mobile">Contact</a>
+      <a
+      href="/login"
+      class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile"
+      >Welcome {{insert1}}, Logout</a
+    >
     </div>
     <div class="container mt-5">
 
@@ -128,6 +134,8 @@
           <input type="text" id="phone" class="form-control">
           อีเมลล์
           <input type="text" id="email" class="form-control">
+
+          <input type="hidden" id="username" value="{{insert1}}">
           
             <button id="go" class='btn btn-primary mt-3'>จองเที่ยวบิน</button>
           </div>

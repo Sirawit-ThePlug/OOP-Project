@@ -1,3 +1,137 @@
-ข้อมูลของดาต้าเบสที่ลูกค้าหาต้องการจองเอามาทำตั๋ว{{db_figth}}
-<br></br>
-ข้อมูลประเภทชั้นที่นั่งที่ลูกค้าเบือก{{seat_type}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket</title>
+    <link rel="icon" type="image/png" href="/static/resource/Logo.png" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Raleway"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style/main.css') }}"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="w3-bar w3-large text-white" style="background-color: #3e075b">
+      <a href="/" class="w3-bar-item w3-button w3-mobile"
+        ><img
+          class="logo"
+          src="static/resource/Logo.png"
+          alt="Logo"
+          style="height: 24px; width: 24px"
+      /></a>
+      <a href="/" class="w3-bar-item w3-button w3-mobile">Search</a>
+      <a
+        href="https://www.thaiairways.com/en/about_thai/company_profile/index.page"
+        class="w3-bar-item w3-button w3-mobile"
+        >About</a
+      >
+      <a
+        href="https://www.thaiairways.com/en_TH/help/contact_us/index.page"
+        class="w3-bar-item w3-button w3-mobile"
+        >Contact</a
+      >
+      <a
+        href="#self"
+        class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile"
+        >Thai Airway</a
+      >
+    </div>
+    <div class="form-group">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm">
+            <div class="col justify-content-center"></div>
+            <div class="card-group">
+              <div class="card">
+                <div class="card-body text-center">
+                  <div class="card-header">
+                    <h1>รหัสตั๋วการสั่งซื้อ {{data_ticket._id}}</h1>
+                  </div>
+                  <div class="card-body">
+                    <div class="justify-content-between">
+                      <div class="row text-center">
+                        <div class="col form-box">
+                          <label for="seattype"
+                            ><h4>ประเภทตั๋ว</h4>
+                            {{data_ticket.ticket_type}}</label
+                          >
+                        </div>
+                        <div class="col form-box">
+                          <label for="seattype"
+                            ><h4>จำนวนที่นั่ง</h4>
+                            {{data_ticket.number_of_seat}}</label
+                          >
+                        </div>
+                        <div class="col form-box">
+                          <label for="seattype"
+                            ><h4>สถานะตั๋ว</h4>
+                            {{data_ticket.ticket_status}}</label
+                          >
+                        </div>
+                        <div class="col form-box">
+                          <label for="seattype"
+                            ><h4>ราคาตั๋วที่นั่ง</h4>
+                            {{data_ticket.ticket_price}}</label
+                          >
+                        </div>
+                        <div class="col form-box">
+                          <label for="seattype"
+                            ><h4>ประเภทตั๋ว</h4>
+                            {{data_ticket.type_seat}}</label
+                          >
+                        </div>
+                      </div>
+
+                      <div>
+                        <div class="form__button button-alt">
+                          <input type="submit" value="ชำระเงิน" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center text-white fixed-bottom w3-purple">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        <h4>
+          จัดทำขึ้นโดย | 65015063 | 65015065 | 65015155 | 65015152 |
+          ส่งกับรายวิชา OOP
+        </h4>
+      </div>
+    </footer>
+  </body>
+</html>
