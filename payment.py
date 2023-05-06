@@ -5,8 +5,3 @@ class payment:
         self.payment_options=payment_options
         self.transaction_id=""
         self.payment_status="unpaid"
-
-    
-
-
-        pass
